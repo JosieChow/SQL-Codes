@@ -1,0 +1,74 @@
+/*
+
+Wirting Quries (MySql)
+
+*/
+--------------------------------------------------------------------------------------------------------------------
+#1 
+# Problem: To calculate the Conversion Rate of Each Online Course
+# Key paprameter of Conversion Rate: the number of subscriptions of each course / the number of views 
+
+SELECT
+  a.course_id,
+  b.course_name,
+  conversion_rate
+FROM
+  (
+    SELECT
+      course_id,
+      ROUND(SUM(if_sign) / SUM(if_vw) * 100, 2) as conversion_rate
+    FROM
+      behavior_tb
+    GROUP BY
+      course_id
+  ) a
+  JOIN course_tb b on a.course_id = b.course_id
+GROUP BY
+  a.course_id,
+  b.course_name
+ORDER BY a.course_id ASC
+
+--------------------------------------------------------------------------------------------------------------------
+
+#2 
+# Problem: Calculate the # users online when each course starts, sort by the the ID number of the course.
+# The start time of each course as coursecourse_date 
+
+SELECT
+  a.course_id,
+  course_name,
+  SUM(
+    if(
+      course_datetime BETWEEN in_datetime AND out_datetime,
+      1,
+      0
+    )
+  ) as online_num
+FROM
+  attend_tb a
+  JOIN course_tb b on a.course_id = b.course_id
+GROUP BY
+  a.course_id,
+  course_name
+ORDER BY
+  course_id
+  
+ --------------------------------------------------------------------------------------------------------------------
+ 
+ #3 
+ # Problem: Calculate the average timelength of each course, sort by average timelength from greatest
+ # Each user can browse the each course whenever they want, so there exists multiple items with duplicates user_id and course_id  
+ 
+ SELECT
+  course_name,
+  ROUND(AVG(timestampdiff(minute, in_datetime, out_datetime)),2) as avg_len
+FROM
+  course_tb a
+  JOIN attend_tb b on a.course_id = b.course_id
+GROUP BY
+  course_name
+ORDER BY avg_len DESC
+
+--------------------------------------------------------------------------------------------------------------------
+
+Keep on loading...
