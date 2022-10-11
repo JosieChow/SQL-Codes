@@ -3,4 +3,4 @@
 
 Here is the list of the categories of the SQL code I came across in real life:)
 
-[Online education] 
+[1. Online education](https://github.com/JosieChow/SQL-Codes/blob/a012f68b92842e2a45b5277f243ead9d8734a7a1/Online%20Education)
